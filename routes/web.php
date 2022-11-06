@@ -41,5 +41,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('perfil/{id}', [UserController::class, 'perfil'])->name('perfil');
     Route::get('seguir/{id}/{idseguido}', [UserController::class, 'seguir'])->name('seguir');
     Route::resource('oferta', OfertaController::class);
+
+    // Admin
+    Route::get('/infoPie', [CategoriaController::class, 'getDataPie']);
+    Route::get('/cv/{id}', [UserController::class, 'reportRequest']);
 });
 Auth::routes();

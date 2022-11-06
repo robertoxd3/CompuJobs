@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Habilidad;
+use App\Models\Idioma;
 use App\Models\Seguido;
+use App\Models\Trabajo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -175,5 +178,46 @@ class UserController extends Controller
 
         return redirect()->route('usuarios.index')
             ->with('success', 'User deleted successfully');
+    }
+
+    public function reportRequest($id)
+    {
+        $model = User::where("users.id", $id)
+            ->first();
+
+        $habilidades = Habilidad::where('id_user', $id)->get();
+        $trabajos = Trabajo::where('id_user', $id)->get();
+        $idiomas = Idioma::where('id_user', $id)->get();
+        $templatePath = storage_path() . '/app/public/templates';
+
+        //Open template and save it as docx
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+        $document = $phpWord->loadTemplate($templatePath . '/CVTemplate.docx');
+
+        $document->setValue('name', $model->name);
+        $document->setValue('email', $model->email);
+        $document->setValue('telefono', $model->telefono);
+        $document->setValue('direccion', $model->direccion);
+        $document->setValue('nombre_categoria', $model->categoria->nombre_categoria);
+        $document->setValue('documento_unico', $model->documento_unico);
+
+        for ($i = 1; $i <= 3; $i++) {
+            $document->setValue('habilidad' . $i, $habilidades[$i]->nombre_habilidad ?? 'N/A');
+            $document->setValue('trabajo' . $i, $trabajos[$i]->nombre_trabajo ?? 'N/A');
+            $document->setValue('idioma' . $i, $idiomas[$i]->nombre_idioma ?? 'N/A');
+        }
+
+        $document->setValue('dateReport', date('d-m-Y'));
+        $document->setValue('timeReport', date('H:i'));
+
+        $tempPath = storage_path() . '/app/public/temps';
+
+        $nameFile = "$tempPath/$model->id.docx";
+        $document->saveAs($nameFile);
+
+        return response()
+            ->download($nameFile)
+            ->deleteFileAfterSend(true);
     }
 }

@@ -101,7 +101,7 @@ class User extends Authenticatable
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function Categoria()
+    public function categoria()
     {
         return $this->hasOne('App\Models\Categoria', 'id', 'id_categoria');
     }

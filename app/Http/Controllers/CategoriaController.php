@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use App\Models\Habilidad;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 /**
@@ -105,5 +107,28 @@ class CategoriaController extends Controller
 
         return redirect()->route('categoria.index')
             ->with('success', 'Categoria deleted successfully');
+    }
+
+    public function getDataPie()
+    {
+        $categorias = [];
+        $totalUsuarios = [];
+
+        $categories = Categoria::all();
+        // dd($categorias);
+        foreach ($categories as $key => $categoria) {
+            $categorias[$key] = $categoria->nombre_categoria;
+            $totalUsuarios[$key] = User::where('id_categoria', $categoria->id)->count();
+        }
+
+        $puntuaciones = [];
+
+        $puntuaciones = Habilidad::orderBy('puntaje', 'desc')->take(10)->get();
+
+        return response()->json([
+            'categorias' => $categorias,
+            'totalUsuarios' => $totalUsuarios,
+            'puntuaciones' => $puntuaciones,
+        ]);
     }
 }

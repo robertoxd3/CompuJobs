@@ -17,7 +17,7 @@
                                 <h5 class="my-3">{{ $user->name }}</h5>
                                 <p class="text-muted mb-1">Tipo Usuario: {{ $user->tipo_usuario }}</p>
                                 <p class="text-muted mb-4">{{ $user->pais }}</p>
-
+                                <a href="/cv/{{ auth()->user()->id }}" class="btn btn-primary">Descargar CV</a>
                             </div>
                         </div>
                         <div class="card mb-4 mb-lg-0">
