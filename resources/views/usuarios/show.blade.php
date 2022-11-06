@@ -40,7 +40,17 @@
                                 </p>
 
                                 @foreach ($user->habilidads as $habilidad)
-                                    <p class="mb-1" style="font-size: .77rem;">{{ $habilidad['nombre_habilidad'] }}</p>
+                                    <div class="row">
+                                        <div class="col mt-3">
+                                            <span class="mb-1" style="font-size: .77rem;">{{ $habilidad['nombre_habilidad'] }}</span>
+                                        </div>
+                                        <div class="col mt-3">
+                                          <a class="btn btn-success btn-sm"
+                                              href="{{ route('puntuar', ['id' => $habilidad['id']]) }}">
+                                              Puntuar
+                                          </a>
+                                        </div>
+                                      </div>
                                 @endforeach
                                 {{-- <p class="mb-1" style="font-size: .77rem;">Web Design</p>
 

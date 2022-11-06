@@ -19,9 +19,16 @@ class HabilidadController extends Controller
     public function index()
     {
         $habilidads = Habilidad::paginate();
-
+        $profesion = DB::table('habilidad')->where('id', $user->id_categoria)->first();
         return view('habilidad.index', compact('habilidads'))
             ->with('i', (request()->input('page', 1) - 1) * $habilidads->perPage());
+    }
+
+    public function ranking()
+    {
+        $i = 1;
+        $habilidads =  Habilidad::all()->sortByDesc("puntaje");
+        return view('habilidad.ranking', compact('habilidads', 'i'));
     }
 
     /**
@@ -80,6 +87,19 @@ class HabilidadController extends Controller
         $habilidad = Habilidad::find($id);
 
         return view('habilidad.edit', compact('habilidad'));
+    }
+
+    public function puntuar($id)
+    {
+        $puntacion = 3;
+        //Habilidad::where('id', $id)->update(array('puntaje' => $puntacion));
+        $habilidad = Habilidad::find($id);
+        if ($habilidad) {
+            $habilidad->puntaje += $puntacion;
+            $habilidad->save();
+        }
+        return redirect()->route('profesionales')
+            ->with('success', 'Habilidad Puntuada');
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Http\Controllers\PublicacionController;
 use App\Http\Controllers\TrabajoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OfertaController;
+use App\Models\Habilidad;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/publicaciones', [PublicacionController::class, 'index'])->name('publicaciones');
     Route::get('/profesionales', [UserController::class, 'profesionales'])->name('profesionales');
     Route::get('perfil/{id}', [UserController::class, 'perfil'])->name('perfil');
+    Route::get('puntuar/{id}', [HabilidadController::class, 'puntuar'])->name('puntuar');
+    Route::get('/ranking', [HabilidadController::class, 'ranking'])->name('ranking');
     Route::get('seguir/{id}/{idseguido}', [UserController::class, 'seguir'])->name('seguir');
     Route::resource('oferta', OfertaController::class);
 
