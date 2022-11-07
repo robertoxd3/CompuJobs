@@ -42,7 +42,7 @@
                                         <div class="small d-flex justify-content-end">
                                             {{ $publicacion->created_at->diffForHumans() }}</div>
                                         <div class="">
-                                            <h5>Usuario: {{ $publicacion->id_user }}
+                                            <h5>Usuario:
                                                 @foreach ($usuarios as $usuario)
                                                     @if ($usuario->id == $publicacion->id_user)
                                                         {{ $usuario->name }}
