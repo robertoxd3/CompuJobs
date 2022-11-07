@@ -58,8 +58,8 @@ class RegisterController extends Controller
             'direccion' => ['required', 'string'],
             'telefono' => ['required', 'string'],
             'tipo_usuario' => ['required', 'string'],
-            'documento_unico' => ['required', 'string'],
-            'genero' => ['required', 'string'],
+            // 'documento_unico' => ['required', 'string'],
+            // 'genero' => ['required', 'string'],
         ]);
 
         return $validations;
