@@ -93,15 +93,16 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="documento_unico" class="col-md-4 col-form-label text-md-end">Documento único
+                                <label for="documento_unico"
+                                    class="col-md-4 col-form-label text-md-end document_unico_form">Documento único
                                     <br>
                                     (DUI
                                     o
                                     NIT)</label>
 
                                 <div class="col-md-6">
-                                    <input type="text" id="documento_unico" rows="3" class="form-control"
-                                        name="documento_unico">
+                                    <input type="text" id="documento_unico" rows="3"
+                                        class="form-control document_unico_form" name="documento_unico">
                                 </div>
 
                                 @error('documento_unico')
@@ -112,10 +113,10 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="genero" class="col-md-4 col-form-label text-md-end">Género</label>
+                                <label for="genero" class="col-md-4 col-form-label text-md-end genero_form">Género</label>
 
-                                <div class="col-md-6">
-                                    <select name="genero" id="genero" class="form-control">
+                                <div class="col-md-6 genero_form">
+                                    <select name="genero" id="genero" class="form-control genero_form">
                                         <option value="masculino">Masculino</option>
                                         <option value="femenino">Femenino</option>
                                     </select>
@@ -194,4 +195,21 @@
         </div>
     </div>
     </div>
+
+    <script>
+        document.getElementById('tipo_usuario').addEventListener('change', (e) => {
+            const tipo = e.target.value
+            const documento = document.querySelectorAll('.document_unico_form')
+            const genero = document.querySelectorAll('.genero_form')
+            console.log(documento)
+            if (tipo == 'empresa') {
+                documento.forEach(el => el.style.display = 'none')
+                genero.forEach(el => el.style.display = 'none')
+            } else {
+                documento.forEach(el => el.style.display = 'block')
+                genero.forEach(el => el.style.display = 'block')
+            }
+
+        });
+    </script>
 @endsection
