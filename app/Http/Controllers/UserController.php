@@ -9,6 +9,8 @@ use App\Models\Trabajo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpWord\Element\Table;
 
 /**
  * Class UserController
@@ -219,5 +221,82 @@ class UserController extends Controller
         return response()
             ->download($nameFile)
             ->deleteFileAfterSend(true);
+    }
+
+    public function pdfUsuario()
+    {
+        //$users = User::get();
+
+        $users = DB::table('users')
+            ->join('categoria', 'users.id_categoria', '=', 'categoria.id', 'left outer')
+            ->select('users.*', 'categoria.nombre_categoria')
+            ->orderBy('categoria.nombre_categoria', 'asc')
+            // ->where('tipo_usuario', 'profesional')
+            ->get();
+
+        $masculino = DB::table('users')
+            ->where('genero', 'masculino')
+            ->get();
+
+        $femenino = DB::table('users')
+            ->where('genero', 'femenino')
+            ->get();
+
+        $data = [
+            'title' => 'Reporte de usuarios registrados',
+            'date' => date('m/d/Y'),
+            'masculino' => $masculino,
+            'femenino' => $femenino,
+            'users' => $users
+        ];
+
+        $pdf = PDF::loadView('reporte.reporteUsuario', $data);
+
+        return $pdf->stream();
+        //return $pdf->download('itsolutionstuff.pdf');
+    }
+
+    public function pdfHabilidad()
+    {
+        //$users = User::get();
+
+
+        $habilidad = DB::table('habilidad')
+            ->join('users', 'habilidad.id_user', '=', 'users.id', 'left outer')
+            ->select('users.name', 'habilidad.*')
+            // ->where('tipo_usuario', 'profesional')
+            ->get();
+
+        $data = [
+            'title' => 'Reporte de habilidades',
+            'date' => date('m/d/Y'),
+            'habilidad' => $habilidad
+        ];
+        $pdf = PDF::loadView('reporte.reporteHabilidad', $data);
+
+        return $pdf->stream();
+        //return $pdf->download('itsolutionstuff.pdf');
+    }
+
+    public function pdfProfesion()
+    {
+        //$users = User::get();
+
+
+        $profesion = DB::table('users')
+            ->join('categoria', 'users.id_categoria', '=', 'categoria.id', 'left outer')
+            ->select('users.*', 'categoria.*')
+            // ->where('tipo_usuario', 'profesional')
+            ->get();
+
+        $data = [
+            'title' => 'Reporte de Profesiones',
+            'date' => date('m/d/Y'),
+            'profesion' => $profesion
+        ];
+        $pdf = PDF::loadView('reporte.reporteProfesion', $data);
+
+        return $pdf->stream();
+        //return $pdf->download('itsolutionstuff.pdf');
     }
 }

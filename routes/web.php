@@ -44,9 +44,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ranking', [HabilidadController::class, 'ranking'])->name('ranking');
     Route::get('seguir/{id}/{idseguido}', [UserController::class, 'seguir'])->name('seguir');
     Route::resource('oferta', OfertaController::class);
+    Route::get('oferta/{id}', [OfertaController::class, 'show'])->name('show');
 
     // Admin
     Route::get('/infoPie', [CategoriaController::class, 'getDataPie']);
     Route::get('/cv/{id}', [UserController::class, 'reportRequest']);
+    Route::get('/reporteUsuario', [UserController::class, 'pdfUsuario']);
+    Route::get('/reporteHabilidad', [UserController::class, 'pdfHabilidad']);
+    Route::get('/reporteProfesion', [UserController::class, 'pdfProfesion']);
 });
 Auth::routes();

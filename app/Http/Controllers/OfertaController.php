@@ -65,9 +65,9 @@ class OfertaController extends Controller
      */
     public function show($id)
     {
-        $Oferta = Oferta::find($id);
+        $oferta = Oferta::find($id);
 
-        return view('oferta.show', compact('Oferta'));
+        return view('oferta.show', compact('oferta'));
     }
 
     /**

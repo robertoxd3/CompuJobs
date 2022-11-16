@@ -74,6 +74,13 @@
                                                     </form>
                                                 </td>
                                             @endif
+                                            <td>
+                                                <form action="{{ route('oferta.show', $oferta->id) }}"
+                                                    method="POST">
+                                                    <a class="btn btn-sm btn-success"
+                                                        href="{{ route('oferta.show', $oferta->id) }}"><i class="fa-solid fa-eye"></i> Ver</a>
+                                                        </form>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
