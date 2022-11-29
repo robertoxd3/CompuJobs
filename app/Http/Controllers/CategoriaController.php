@@ -49,7 +49,7 @@ class CategoriaController extends Controller
 
         $categoria = Categoria::create($request->all());
 
-        return redirect()->route('categoria.index')
+        return redirect()->route('categorias.index')
             ->with('success', 'Categoria created successfully.');
     }
 
@@ -90,9 +90,10 @@ class CategoriaController extends Controller
     {
         request()->validate(Categoria::$rules);
 
+
         $categoria->update($request->all());
 
-        return redirect()->route('categoria.index')
+        return redirect()->route('categorias.index')
             ->with('success', 'Categoria updated successfully');
     }
 
@@ -105,7 +106,7 @@ class CategoriaController extends Controller
     {
         $categoria = Categoria::find($id)->delete();
 
-        return redirect()->route('categoria.index')
+        return redirect()->route('categorias.index')
             ->with('success', 'Categoria deleted successfully');
     }
 

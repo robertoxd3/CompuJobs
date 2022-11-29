@@ -94,6 +94,18 @@
                                         <p class="text-muted mb-0">{{ $user->documento_unico }}</p>
                                     </div>
                                 </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Acción</p>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <a class="btn btn-sm btn-success"
+                                        href="{{ route('usuarios.edit', $user->id) }}"><i
+                                            class="fa fa-fw fa-edit"></i> Editar Información</a>
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                         <div class="row">

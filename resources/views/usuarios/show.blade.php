@@ -161,6 +161,44 @@
                         </div>
                     </div>
                 </div>
+
+                @if ($user->tipo_usuario == 'empresa') 
+                <div class="row animate__animated animate__backInLeft mt-3" >
+                    <h2 class="rfs-25 fw-bolder">Ofertas de este usuario.</h2>
+                    @if ($oferta->count() > 0)
+                    @foreach ($oferta as $oferta)
+                    <div class="col-xl-12 col-md-12 mb-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between p-md-1">
+                            <div class="d-flex flex-row">
+                                {{ ++$loop->index  }}
+                              <div class="align-self-center">
+                                <img class="rounded-circle shadow-1-strong me-3" width="65" height="65" src="{{$user->foto}}"
+                                alt="avatar"  />
+                              </div>
+                              <div>
+                                <h4>{{ $oferta->titulo }}</h4>
+                                <p class="mb-0"><b>Empresa:</b> {{ $user->name}}</p>
+                                <p class="mb-0"><b>Rango Salarial:</b>  ${{ $oferta->rango_salarial}}</p>
+                                <p class="mb-0"><b>Cargo:</b>  {{ $oferta->cargo}}</p>
+                                
+                              </div>
+                            </div>
+                            <div class="align-self-center">
+                              <a class="btn btn-sm btn-dark"
+                              href="{{ route('oferta.show', $oferta->id) }}"><i class="fa-solid fa-eye"></i> Ver Más</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endforeach 
+                    @else
+                        <span>¡No Tiene ninguna oferta!</span>
+                    @endif
+                </div>
+                @endif
             </div>
         </section>
 

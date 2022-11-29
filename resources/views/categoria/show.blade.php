@@ -14,7 +14,7 @@
                             <span class="card-title">Show Categoria</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('categoria.index') }}"> Back</a>
+                            <a class="btn btn-primary" href="{{ route('categorias.index') }}"> Back</a>
                         </div>
                     </div>
 
@@ -22,7 +22,7 @@
 
                         <div class="form-group">
                             <strong>Nombre Categoria:</strong>
-                            {{ $Categoria->nombre_categoria }}
+                            {{ $categoria->nombre_categoria }}
                         </div>
 
                     </div>

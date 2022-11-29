@@ -39,12 +39,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/publicaciones', [PublicacionController::class, 'index'])->name('publicaciones');
     Route::get('/profesionales', [UserController::class, 'profesionales'])->name('profesionales');
+    Route::get('/empresas', [UserController::class, 'empresas'])->name('empresas');
     Route::get('perfil/{id}', [UserController::class, 'perfil'])->name('perfil');
     Route::get('puntuar/{id}', [HabilidadController::class, 'puntuar'])->name('puntuar');
     Route::get('/ranking', [HabilidadController::class, 'ranking'])->name('ranking');
     Route::get('seguir/{id}/{idseguido}', [UserController::class, 'seguir'])->name('seguir');
     Route::resource('oferta', OfertaController::class);
     Route::get('oferta/{id}', [OfertaController::class, 'show'])->name('show');
+    Route::get('postular/{id}', [OfertaController::class, 'postular'])->name('postular');
 
     // Admin
     Route::get('/infoPie', [CategoriaController::class, 'getDataPie']);

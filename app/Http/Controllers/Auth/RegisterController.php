@@ -7,6 +7,7 @@ use App\Models\Categoria;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,7 +59,8 @@ class RegisterController extends Controller
             'direccion' => ['required', 'string'],
             'telefono' => ['required', 'string'],
             'tipo_usuario' => ['required', 'string'],
-            // 'documento_unico' => ['required', 'string'],
+            'foto' => ['required', 'image', 'mimes:png,jpg,jpeg', 'max:1000'],
+            'documento_unico' => ['required', 'string'],
             // 'genero' => ['required', 'string'],
         ]);
 
@@ -73,18 +75,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'direccion' => $data['direccion'],
-            'password' => Hash::make($data['password']),
-            'telefono' => $data['telefono'],
-            'tipo_usuario' => $data['tipo_usuario'],
-            'documento_unico' => $data['documento_unico'],
-            'genero' => $data['genero'],
-            'foto' => '/img/foto.png',
-            'id_categoria' => Categoria::where('nombre_categoria', $data['nombre_categoria'])->first()->id,
-        ]);
+        try {
+            $imageName = time() . '.' . $data['foto']->extension();
+            // Public Folder
+            $data['foto']->move(public_path('img'), $imageName);
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'direccion' => $data['direccion'],
+                'password' => Hash::make($data['password']),
+                'telefono' => $data['telefono'],
+                'tipo_usuario' => $data['tipo_usuario'],
+                'documento_unico' => $data['documento_unico'],
+                'genero' => $data['genero'],
+                'foto' => "/img/" . $imageName,
+                'id_categoria' => Categoria::where('nombre_categoria', $data['nombre_categoria'])->first()->id,
+            ]);
+        } catch (e) {
+            return 'Error';
+        }
     }
 
     public function showRegistrationForm()

@@ -27,6 +27,7 @@ class Oferta extends Model
         'cargo' => 'required',
         'anios_experiencia' => 'required',
         'rango_salarial' => 'required',
+
         // 'id_empresa' => 'required',
     ];
 

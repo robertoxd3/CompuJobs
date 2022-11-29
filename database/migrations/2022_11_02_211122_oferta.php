@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('cargo');
             $table->integer('anios_experiencia');
             $table->integer('rango_salarial');
-
+            $table->string('descripcion');
+            $table->string('estudios');
             $table->unsignedBigInteger('id_empresa');
             $table->foreign('id_empresa')->references('id')->on('users');
         });

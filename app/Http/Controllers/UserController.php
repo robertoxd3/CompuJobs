@@ -38,10 +38,22 @@ class UserController extends Controller
         $profesionales = DB::table('users')
             ->join('categoria', 'users.id_categoria', '=', 'categoria.id', 'left outer')
             ->select('users.*', 'categoria.nombre_categoria')
-            // ->where('tipo_usuario', 'profesional')
+            ->where('tipo_usuario', 'profesional')
             ->get();
         //dd($profesionales);
         return view('usuarios.profesionales', compact('profesionales'));
+    }
+
+    public function empresas()
+    {
+        //$profesionales = User::all()->where('tipo_usuario', 'profesional');
+        $empresas = DB::table('users')
+            ->join('categoria', 'users.id_categoria', '=', 'categoria.id', 'left outer')
+            ->select('users.*', 'categoria.nombre_categoria')
+            ->where('tipo_usuario', 'empresa')
+            ->get();
+        //dd($profesionales);
+        return view('usuarios.empresas', compact('empresas'));
     }
 
     public function seguir($id, $idseguido)
@@ -108,13 +120,16 @@ class UserController extends Controller
         $user = User::find($id);
         //Obtener los id de los seguidos de este usuario en especifico
         $profesion = DB::table('categoria')->where('id', $user->id_categoria)->first();
-
+        $oferta[] = null;
         foreach ($user->seguidos->toArray() as $seguido) {
             if ($seguido['id_usuario_seguido'] == auth()->user()->id) {
                 $user->siguiendo = true;
             }
         }
-        return view('usuarios.show', compact('user', 'profesion'));
+        if ($user->tipo_usuario == "empresa") {
+            $oferta = DB::table('oferta')->where('id_empresa', $id)->get();
+        }
+        return view('usuarios.show', compact('user', 'profesion', 'oferta'));
     }
 
 
@@ -125,6 +140,7 @@ class UserController extends Controller
         }
 
         $seguidosUsuario[] = null;
+        $oferta[] = null;
         //Encontrar el usuario con el id especifico
         $user = User::find($id);
         //Obtener los id de los seguidos de este usuario en especifico
@@ -134,9 +150,12 @@ class UserController extends Controller
         for ($i = 0; $i < $seguidos->count(); $i++) {
             $seguidosUsuario[$i] = User::find($seguidos[$i]->id_usuario_seguido);
         }
+        if ($user->tipo_usuario == "empresa") {
+            $oferta = DB::table('oferta')->where('id_empresa', $id)->get();
+        }
 
 
-        return view('usuarios.perfil', compact('user', 'seguidosUsuario', 'profesion'));
+        return view('usuarios.perfil', compact('user', 'seguidosUsuario', 'profesion', 'oferta'));
     }
 
     /**
@@ -147,6 +166,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if (auth()->user()->id != $id) {
+            return redirect()->route('home');
+        }
         $user = User::find($id);
 
         return view('usuarios.edit', compact('user'));
@@ -195,7 +217,7 @@ class UserController extends Controller
         //Open template and save it as docx
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
 
-        $document = $phpWord->loadTemplate($templatePath . '/CVTemplate.docx');
+        $document = $phpWord->loadTemplate($templatePath . '/CVTemplate2.docx');
 
         $document->setValue('name', $model->name);
         $document->setValue('email', $model->email);
@@ -204,6 +226,18 @@ class UserController extends Controller
         $document->setValue('nombre_categoria', $model->categoria->nombre_categoria);
         $document->setValue('documento_unico', $model->documento_unico);
 
+        foreach ($habilidades as $key => $habilidades) {
+            $document->setValue('habilidad' . ($key + 1), $habilidades->nombre_habilidad ?? 'N/A');
+        }
+
+        foreach ($trabajos as $key => $trabajos) {
+            $document->setValue('trabajo' . ($key + 1), $trabajos->nombre_trabajo ?? 'N/A');
+        }
+
+        foreach ($idiomas as $key => $idiomas) {
+            $document->setValue('idioma' . ($key + 1), $idiomas->nombre_idioma ?? 'N/A');
+        }
+        //setear n/a
         for ($i = 1; $i <= 3; $i++) {
             $document->setValue('habilidad' . $i, $habilidades[$i]->nombre_habilidad ?? 'N/A');
             $document->setValue('trabajo' . $i, $trabajos[$i]->nombre_trabajo ?? 'N/A');

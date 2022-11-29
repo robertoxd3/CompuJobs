@@ -24,6 +24,8 @@ class OfertaController extends Controller
             ->with('i', (request()->input('page', 1) - 1) * $oferta->perPage());
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -68,6 +70,13 @@ class OfertaController extends Controller
         $oferta = Oferta::find($id);
 
         return view('oferta.show', compact('oferta'));
+    }
+
+    public function postular($id)
+    {
+        $oferta = Oferta::find($id);
+
+        return view('oferta.postularse', compact('oferta'));
     }
 
     /**

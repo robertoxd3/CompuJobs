@@ -6,62 +6,50 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
+        @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+         @endif
 
-                            <span id="card_title">
-                                {{ __('Ofertas') }}
-                            </span>
-
-                            @if (auth()->user()->tipo_usuario == 'empresa')
+        @if (auth()->user()->tipo_usuario == 'empresa')
                                 <div class="float-right">
                                     <a href="{{ route('oferta.create') }}" class="btn btn-primary btn-sm float-right"
                                         data-placement="left">
                                         {{ __('Create New') }}
                                     </a>
-                                </div>
-                            @endif
-                        </div>
+                </div>
+         @endif
+
+         <div editable="rich" class="text-center">
+            <h2 class="rfs-25 fw-bolder animate__animated animate__backInLeft">Ofertas</h2>
+        </div> 
+
+        <div class="row animate__animated animate__backInLeft" >
+            @foreach ($oferta as $oferta)
+            <div class="col-xl-12 col-md-12 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between p-md-1">
+                    <div class="d-flex flex-row">
+                        {{ ++$i }}
+                      <div class="align-self-center">
+                        <img class="rounded-circle shadow-1-strong me-3" width="65" height="65" src="{{$oferta->user->foto}}"
+                        alt="avatar"  />
+                      </div>
+                      <div>
+                        <h4>{{ $oferta->titulo }}</h4>
+                        <p class="mb-0"><b>Empresa:</b> {{ $oferta->user->name }}</p>
+                        <p class="mb-0"><b>Rango Salarial:</b>  ${{ $oferta->rango_salarial}}</p>
+                        <p class="mb-0"><b>Cargo:</b>  {{ $oferta->cargo}}</p>
+                        
+                      </div>
                     </div>
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
+                    <div class="align-self-center">
+                      <a class="btn btn-sm btn-dark"
+                      href="{{ route('oferta.show', $oferta->id) }}"><i class="fa-solid fa-eye"></i> Ver Más</a>
+                      @if (auth()->user()->id == $oferta->id_empresa)
 
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="thead">
-                                    <tr>
-                                        <th>No</th>
-
-                                        <th>Titulo</th>
-                                        <th>Cargo</th>
-                                        <th>Anios Experiencia</th>
-                                        <th>Rango Salarial</th>
-                                        <th>Empresa</th>
-                                        @if (auth()->user()->tipo_usuario == 'empresa')
-                                            <th></th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($oferta as $oferta)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-
-                                            <td>{{ $oferta->titulo }}</td>
-                                            <td>{{ $oferta->cargo }}</td>
-                                            <td>{{ $oferta->anios_experiencia }}</td>
-                                            <td>{{ $oferta->rango_salarial }}</td>
-                                            <td>{{ $oferta->user->name }}</td>
-
-                                            @if (auth()->user()->id == $oferta->id_empresa)
-                                                <td>
                                                     <form action="{{ route('oferta.destroy', $oferta->id) }}"
                                                         method="POST">
                                                         <a class="btn btn-sm btn-success"
@@ -72,24 +60,14 @@
                                                         <button type="submit" class="btn btn-danger btn-sm"><i
                                                                 class="fa fa-fw fa-trash"></i> Delete</button>
                                                     </form>
-                                                </td>
-                                            @endif
-                                            <td>
-                                                <form action="{{ route('oferta.show', $oferta->id) }}"
-                                                    method="POST">
-                                                    <a class="btn btn-sm btn-success"
-                                                        href="{{ route('oferta.show', $oferta->id) }}"><i class="fa-solid fa-eye"></i> Ver</a>
-                                                        </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        
+                     @endif
                     </div>
+                  </div>
                 </div>
-                {{-- {!! $oferta->links() !!} --}}
+              </div>
             </div>
+            @endforeach 
         </div>
     </div>
 @endsection

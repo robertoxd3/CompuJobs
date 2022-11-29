@@ -2,38 +2,41 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Página de inicio</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        <div class="container animate__animated animate__backInLeft" >
-                            <div class="row">
-                                <img class="mx-auto" style="max-width: 200px" src="{{ auth()->user()->foto }}"
-                                    alt="">
-                                <h1>Bienvenido al sistema de vacantes profesionales</h1>
-
+        <div class="overflow-hidden">
+            <div class="container-fluid col-xxl-8">
+                <div class="row flex-lg-nowrap align-items-center g-5">
+                    <div class="order-lg-1 w-100">
+                        <img style="clip-path: polygon(25% 0%, 100% 0%, 100% 99%, 0% 100%);" src="https://images.unsplash.com/photo-1618004912476-29818d81ae2e?crop=entropy&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;ixid=MnwzNzg0fDB8MXxzZWFyY2h8NzV8fHB1cnBsZXxlbnwwfDB8fHwxNjQ3NDcxNjY4&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=1080&amp;h=768" class="d-block mx-lg-auto img-fluid" alt="Photo by Milad Fakurian" loading="lazy" srcset="https://images.unsplash.com/photo-1618004912476-29818d81ae2e?crop=entropy&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;ixid=MnwzNzg0fDB8MXxzZWFyY2h8NzV8fHB1cnBsZXxlbnwwfDB8fHwxNjQ3NDcxNjY4&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=1080&amp;h=768 1080w, https://images.unsplash.com/photo-1618004912476-29818d81ae2e??crop=entropy&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;ixid=MnwzNzg0fDB8MXxzZWFyY2h8NzV8fHB1cnBsZXxlbnwwfDB8fHwxNjQ3NDcxNjY4&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=150 150w, https://images.unsplash.com/photo-1618004912476-29818d81ae2e??crop=entropy&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;ixid=MnwzNzg0fDB8MXxzZWFyY2h8NzV8fHB1cnBsZXxlbnwwfDB8fHwxNjQ3NDcxNjY4&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=300 300w, https://images.unsplash.com/photo-1618004912476-29818d81ae2e??crop=entropy&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;ixid=MnwzNzg0fDB8MXxzZWFyY2h8NzV8fHB1cnBsZXxlbnwwfDB8fHwxNjQ3NDcxNjY4&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=768 768w, https://images.unsplash.com/photo-1618004912476-29818d81ae2e??crop=entropy&amp;cs=tinysrgb&amp;fit=crop&amp;fm=jpg&amp;ixid=MnwzNzg0fDB8MXxzZWFyY2h8NzV8fHB1cnBsZXxlbnwwfDB8fHwxNjQ3NDcxNjY4&amp;ixlib=rb-1.2.1&amp;q=80&amp;w=1024 1024w" sizes="(max-width: 1080px) 100vw, 1080px" width="2160" height="768">
+                    </div>
+                    <div class="col-lg-6 col-xl-5 text-center text-lg-start pt-lg-5 mt-xl-4">
+                        <div class="lc-block mb-4">
+                            <div editable="rich">
+                                <h1 class="fw-bold display-3 animate__animated animate__fadeInLeft">Bienvenido CompuJobs</h1>
                             </div>
                         </div>
-                        {{-- {{ __('You are logged in!') }} --}}
+        
+                        <div class="lc-block mb-5 animate__animated animate__fadeInLeft">
+                            <div editable="rich">
+                                <p class="lead">¡No se olvide de ver las nuevas ofertas posteadas por las empresas suscritas! </p>
+                            </div>
+                        </div>
+        
+                        <div class="lc-block mb-6"><a class="btn btn-primary px-4 me-md-2 btn-lg animate__animated animate__fadeInRight" href="{{ url('oferta') }}" role="button">Ver ahora</a>
+                        </div>
                     </div>
-                </div>
+        
+                </div><!-- /lc-block -->
             </div>
         </div>
+        
 
         @if (auth()->user()->tipo_usuario == 'administrador')
             <div class="container mt-4">
                 <div class="row">
-                    <h3>Panel de administración</h3>
+                    <div editable="rich" class="text-center">
+                        <h2 class="rfs-25 fw-bolder">Panel de administración</h2>
+                    </div>
                     <hr>
-
                     <div class="card mb-5">
                         <div class="container">
                             <div class="row">
@@ -71,7 +74,9 @@
                                 label: '# de usuarios',
                                 data: data.totalUsuarios,
                                 backgroundColor: [
-                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(220, 118, 51)',
+                                    'rgba(52, 73, 94)',
+                                    'rgba(127, 140, 141)',
                                 ],
                                 borderWidth: 1
                             }]
@@ -103,7 +108,9 @@
                                 label: 'Habilidades más puntuadas',
                                 data: puntajes,
                                 backgroundColor: [
-                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(52, 73, 94)',
+                                    'rgba(127, 140, 141)',
+                                    'rgba(220, 118, 51)',
                                 ],
                                 borderWidth: 1
                             }]
@@ -123,8 +130,9 @@
         @endif
 
         @if (auth()->user()->tipo_usuario == 'administrador')   
-        <h1 class="display-5 animate__animated animate__backInLeft">Reportes Administrador </h1>
-
+        <div editable="rich" class="text-center">
+            <h2 class="rfs-25 fw-bolder animate__animated animate__backInLeft">Reportes Administrador</h2>
+        </div>   
         <div class="row text-center text-lg-start animate__animated animate__backInLeft">
             <div class="col-lg-3 col-md-4 col-6"  id="reporteAdmin">
                 <a  target="_blank" href="/reporteUsuario" class="d-block mb-4 h-100">
